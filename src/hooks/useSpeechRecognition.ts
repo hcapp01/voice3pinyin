@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import pinyin from 'pinyin';
+import { pinyin } from 'pinyin-pro';
 
 interface TranslationState {
   text: string;
@@ -27,7 +27,8 @@ export function useSpeechRecognition() {
         .join('');
 
       const pinyinText = pinyin(transcript, {
-        style: pinyin.STYLE_TONE_MARK,
+        toneType: 'symbol',
+        type: 'array'
       }).join(' ');
 
       setTranslation({
