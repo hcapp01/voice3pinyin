@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MicButton } from './components/MicButton';
 import { WaveAnimation } from './components/WaveAnimation';
 import { TranslationResult } from './components/TranslationResult';
+import { TargetWord } from './components/TargetWord';
 import { useSpeechRecognition } from './hooks/useSpeechRecognition';
+import { chineseWords } from './utils/chineseWords';
 
 function App() {
-  const { isListening, translation, startListening, stopListening } = useSpeechRecognition();
+  const [currentWord, setCurrentWord] = useState(chineseWords[0]);
+
+  const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
+    currentWord.word
+  );
+
+  const generateNewWord = () => {
+    const randomIndex = Math.floor(Math.random() * chineseWords.length);
+    setCurrentWord(chineseWords[randomIndex]);
+  };
+
+  useEffect(() => {
+    generateNewWord();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-6">
@@ -14,10 +29,12 @@ function App() {
           Voice to Chinese
         </h1>
 
-        <TranslationResult
-          text={translation.text}
-          pinyin={translation.pinyin}
+        <TargetWord 
+          word={currentWord}
+          onRefresh={generateNewWord}
         />
+
+        <TranslationResult translation={translation} />
 
         <div className="flex flex-col items-center mt-8">
           <MicButton

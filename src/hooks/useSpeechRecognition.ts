@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { pinyin } from 'pinyin-pro';
+import { TranslationState } from '../types/chinese';
 
-interface TranslationState {
-  text: string;
-  pinyin: string;
-}
-
-export function useSpeechRecognition() {
+export function useSpeechRecognition(targetWord: string) {
   const [isListening, setIsListening] = useState(false);
-  const [translation, setTranslation] = useState<TranslationState>({ text: '', pinyin: '' });
+  const [translation, setTranslation] = useState<TranslationState>({ 
+    text: '', 
+    pinyin: '',
+    isCorrect: undefined 
+  });
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const isRecognitionActiveRef = useRef(false);
 
@@ -31,10 +31,17 @@ export function useSpeechRecognition() {
         type: 'array'
       }).join(' ');
 
+      const isCorrect = transcript.includes(targetWord);
+
       setTranslation({
         text: transcript,
         pinyin: pinyinText,
+        isCorrect
       });
+
+      if (isCorrect) {
+        stopListening();
+      }
     };
 
     recognition.onerror = (event) => {
@@ -56,13 +63,13 @@ export function useSpeechRecognition() {
         isRecognitionActiveRef.current = false;
       }
     };
-  }, []);
+  }, [targetWord]);
 
   const startListening = useCallback(() => {
     if (!recognitionRef.current || isRecognitionActiveRef.current) return;
 
     try {
-      setTranslation({ text: '', pinyin: '' });
+      setTranslation({ text: '', pinyin: '', isCorrect: undefined });
       recognitionRef.current.start();
       isRecognitionActiveRef.current = true;
       setIsListening(true);
