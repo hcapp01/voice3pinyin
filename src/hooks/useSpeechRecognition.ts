@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { pinyin } from 'pinyin-pro';
-import { TranslationState } from '../types/chinese';
+import { TranslationState, MatchResult } from '../types/chinese';
+import { comparePinyinWithTones } from '../utils/pinyinUtils';
 
-export function useSpeechRecognition(targetWord: string) {
+export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
   const [isListening, setIsListening] = useState(false);
   const [translation, setTranslation] = useState<TranslationState>({ 
     text: '', 
     pinyin: '',
-    isCorrect: undefined 
+    matchResult: undefined 
   });
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const isRecognitionActiveRef = useRef(false);
@@ -26,20 +27,28 @@ export function useSpeechRecognition(targetWord: string) {
         .map(result => result.transcript)
         .join('');
 
-      const pinyinText = pinyin(transcript, {
+      const spokenPinyin = pinyin(transcript, {
+        toneType: 'symbol',
+        type: 'string'
+      });
+
+      const displayPinyin = pinyin(transcript, {
         toneType: 'symbol',
         type: 'array'
       }).join(' ');
 
-      const isCorrect = transcript.includes(targetWord);
+      // Check for exact character match first
+      const matchResult = transcript.includes(targetWord) 
+        ? MatchResult.Full
+        : comparePinyinWithTones(spokenPinyin, targetPinyin);
 
       setTranslation({
         text: transcript,
-        pinyin: pinyinText,
-        isCorrect
+        pinyin: displayPinyin,
+        matchResult
       });
 
-      if (isCorrect) {
+      if (matchResult === MatchResult.Full) {
         stopListening();
       }
     };
@@ -63,13 +72,13 @@ export function useSpeechRecognition(targetWord: string) {
         isRecognitionActiveRef.current = false;
       }
     };
-  }, [targetWord]);
+  }, [targetWord, targetPinyin]);
 
   const startListening = useCallback(() => {
     if (!recognitionRef.current || isRecognitionActiveRef.current) return;
 
     try {
-      setTranslation({ text: '', pinyin: '', isCorrect: undefined });
+      setTranslation({ text: '', pinyin: '', matchResult: undefined });
       recognitionRef.current.start();
       isRecognitionActiveRef.current = true;
       setIsListening(true);

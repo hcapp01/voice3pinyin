@@ -10,7 +10,8 @@ function App() {
   const [currentWord, setCurrentWord] = useState(chineseWords[0]);
 
   const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
-    currentWord.word
+    currentWord.word,
+    currentWord.pinyin
   );
 
   const generateNewWord = () => {

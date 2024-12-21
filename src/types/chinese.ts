@@ -4,8 +4,14 @@ export interface ChineseWord {
   meaning: string;
 }
 
+export enum MatchResult {
+  None = 0,
+  Partial = 1,
+  Full = 2
+}
+
 export interface TranslationState {
   text: string;
   pinyin: string;
-  isCorrect?: boolean;
+  matchResult?: MatchResult;
 }

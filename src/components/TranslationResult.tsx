@@ -1,13 +1,26 @@
 import React from 'react';
-import { TranslationState } from '../types/chinese';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { TranslationState, MatchResult } from '../types/chinese';
+import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 
 interface TranslationResultProps {
   translation: TranslationState;
 }
 
 export function TranslationResult({ translation }: TranslationResultProps) {
-  const { text, pinyin, isCorrect } = translation;
+  const { text, pinyin, matchResult } = translation;
+
+  const getStatusIcon = () => {
+    if (matchResult === undefined) return null;
+    
+    switch (matchResult) {
+      case MatchResult.Full:
+        return <CheckCircle2 className="text-green-500" size={20} />;
+      case MatchResult.Partial:
+        return <AlertCircle className="text-yellow-500" size={20} />;
+      case MatchResult.None:
+        return <XCircle className="text-red-500" size={20} />;
+    }
+  };
 
   if (!text) {
     return (
@@ -25,13 +38,7 @@ export function TranslationResult({ translation }: TranslationResultProps) {
       <div className="bg-gray-50 rounded-lg p-4 mb-4">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-sm font-semibold text-gray-600">Chinese</h2>
-          {isCorrect !== undefined && (
-            isCorrect ? (
-              <CheckCircle2 className="text-green-500" size={20} />
-            ) : (
-              <XCircle className="text-red-500" size={20} />
-            )
-          )}
+          {getStatusIcon()}
         </div>
         <p className="text-2xl text-gray-800 min-h-[2.5rem]">{text}</p>
       </div>
