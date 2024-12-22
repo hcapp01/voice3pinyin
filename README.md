@@ -54,3 +54,7 @@ interface TranslationState {
   matchResult?: MatchResult;
 }
 ```
+
+## Positioning
+Mic button wil always appear in the center of SpeechInput's container, no matter how many component before or after it. Its position should not change when pressed.
+When it shows, recoginized Speech area is always above mic button. Its height is 1/3 of SpeechInput's container.

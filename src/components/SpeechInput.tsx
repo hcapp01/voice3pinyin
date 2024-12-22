@@ -20,8 +20,8 @@ export function SpeechInput({ targetWord, targetPinyin, onMatch, onListeningChan
   );
 
   return (
-    <>
-      <div className="h-[180px]">
+    <div className="relative h-full">
+      <div className="absolute inset-x-0 top-0 h-1/2">
         {(isListening || translation.matchResult !== undefined) && (
           <RecognizedSpeech 
             translation={translation}
@@ -30,13 +30,13 @@ export function SpeechInput({ targetWord, targetPinyin, onMatch, onListeningChan
         )}
       </div>
 
-      <div className="flex justify-center">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <MicButton
           isListening={isListening}
           onStart={startListening}
           onStop={stopListening}
         />
       </div>
-    </>
+    </div>
   );
 }

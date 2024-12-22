@@ -31,22 +31,28 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-md space-y-6">
-        <h1 className="text-3xl font-bold text-center text-gray-800">
-          Voice to Chinese
-        </h1>
-
-        <TargetWord 
-          word={currentWord}
-          onRefresh={generateNewWord}
-          isListening={isListening}
-        />
-
-        <SpeechInput
-          targetWord={currentWord.word}
-          targetPinyin={currentWord.pinyin}
-          onMatch={handleMatch}
-          onListeningChange={setIsListening}
-        />
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Voice to Chinese
+          </h1>
+        </div>
+        
+        <div className="relative h-[440px] border-2 border-blue-200 rounded-xl bg-white/50 backdrop-blur-sm p-6">
+          <SpeechInput
+            targetWord={currentWord.word}
+            targetPinyin={currentWord.pinyin}
+            onMatch={handleMatch}
+            onListeningChange={setIsListening}
+          />
+          
+          <div className="absolute bottom-0 left-0 right-0">
+            <TargetWord 
+              word={currentWord}
+              onRefresh={generateNewWord}
+              isListening={isListening}
+            />
+          </div>
+        </div>
       </div>
       {showFireworks && <Fireworks />}
     </div>
