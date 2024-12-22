@@ -38,9 +38,7 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
       }).join(' ');
 
       // Check for exact character match first
-      const matchResult = transcript.includes(targetWord) 
-        ? MatchResult.Full
-        : comparePinyinWithTones(spokenPinyin, targetPinyin);
+      const matchResult = comparePinyinWithTones(spokenPinyin, targetPinyin);
 
       setTranslation({
         text: transcript,
