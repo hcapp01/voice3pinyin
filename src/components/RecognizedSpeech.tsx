@@ -43,8 +43,7 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
     return (
       <div className="h-full bg-white rounded-lg p-4 shadow-sm relative border-2 border-transparent">
         <div className="text-center text-gray-500 mt-8">
-          <p>Hold the microphone button to start speaking</p>
-          <p className="text-sm mt-2">Make sure to allow microphone access</p>
+          <p>Hold the microphone button and speaking</p>
         </div>
         <WaveAnimation isActive={isListening} />
       </div>

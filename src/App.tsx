@@ -35,10 +35,12 @@ function App() {
         />
 
         <div className="h-[180px]">
-          <RecognizedSpeech 
-            translation={translation}
-            isListening={isListening}
-          />
+          {(isListening || translation.matchResult !== undefined) && (
+            <RecognizedSpeech 
+              translation={translation}
+              isListening={isListening}
+            />
+          )}
         </div>
 
         <div className="flex justify-center">

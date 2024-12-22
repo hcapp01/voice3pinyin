@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic } from 'lucide-react';
+import { Mic, Square } from 'lucide-react';
 
 interface MicButtonProps {
   isListening: boolean;
@@ -20,12 +20,17 @@ export function MicButton({ isListening, onStart, onStop }: MicButtonProps) {
           : 'bg-blue-500 hover:bg-blue-600'
       }`}
     >
-      <Mic
-        size={32}
-        className={`text-white transition-all duration-200 ${
-          isListening ? 'animate-pulse' : ''
-        }`}
-      />
+      {isListening ? (
+        <Square
+          size={32}
+          className="text-white transition-all duration-200 animate-pulse"
+        />
+      ) : (
+        <Mic
+          size={32}
+          className="text-white transition-all duration-200"
+        />
+      )}
     </button>
   );
 }
