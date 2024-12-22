@@ -14,7 +14,7 @@ export function MicButton({ isListening, onStart, onStop }: MicButtonProps) {
       onMouseUp={onStop}
       onTouchStart={onStart}
       onTouchEnd={onStop}
-      className={`p-6 rounded-full transition-all duration-200 ${
+      className={`p-6 rounded-full transition-all duration-200 select-none ${
         isListening
           ? 'bg-red-500 scale-110 shadow-lg'
           : 'bg-blue-500 hover:bg-blue-600'
