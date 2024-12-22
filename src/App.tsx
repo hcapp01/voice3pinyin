@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TargetWord } from './components/TargetWord';
 import { SpeechInput } from './components/SpeechInput';
 import { Fireworks } from './components/Fireworks';
@@ -50,4 +50,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

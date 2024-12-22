@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import React from 'react';
 import { TranslationState, MatchResult } from '../types/chinese';
 import { WaveAnimation } from './WaveAnimation';
 import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
@@ -8,7 +8,7 @@ interface RecognizedSpeechProps {
   isListening: boolean;
 }
 
-const StatusIcon: FC<{ matchResult: MatchResult }> = ({ matchResult }) => {
+function StatusIcon({ matchResult }: { matchResult: MatchResult }) {
   const iconProps = {
     size: 24,
     strokeWidth: 2,
@@ -23,9 +23,9 @@ const StatusIcon: FC<{ matchResult: MatchResult }> = ({ matchResult }) => {
     case MatchResult.None:
       return <XCircle {...iconProps} className={`${iconProps.className} text-red-500`} />;
   }
-};
+}
 
-export const RecognizedSpeech: FC<RecognizedSpeechProps> = ({ translation, isListening }) => {
+export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechProps) {
   const { text, pinyin, matchResult } = translation;
 
   const getBorderColor = () => {
@@ -60,4 +60,4 @@ export const RecognizedSpeech: FC<RecognizedSpeechProps> = ({ translation, isLis
       <WaveAnimation isActive={isListening} />
     </div>
   );
-};
+}
