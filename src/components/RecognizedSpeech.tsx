@@ -9,22 +9,40 @@ interface RecognizedSpeechProps {
 }
 
 function StatusIcon({ matchResult }: { matchResult: MatchResult }) {
+  const iconProps = {
+    size: 24,
+    strokeWidth: 2,
+    className: "absolute top-6 right-6"
+  };
+
   switch (matchResult) {
     case MatchResult.Full:
-      return <CheckCircle2 className="text-green-500" size={20} />;
+      return <CheckCircle2 {...iconProps} className={`${iconProps.className} text-green-500`} />;
     case MatchResult.Partial:
-      return <AlertCircle className="text-yellow-500" size={20} />;
+      return <AlertCircle {...iconProps} className={`${iconProps.className} text-yellow-500`} />;
     case MatchResult.None:
-      return <XCircle className="text-red-500" size={20} />;
+      return <XCircle {...iconProps} className={`${iconProps.className} text-red-500`} />;
   }
 }
 
 export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechProps) {
   const { text, pinyin, matchResult } = translation;
 
+  const getBorderColor = () => {
+    if (!matchResult) return 'border-transparent';
+    switch (matchResult) {
+      case MatchResult.Full:
+        return 'border-green-500';
+      case MatchResult.Partial:
+        return 'border-yellow-500';
+      case MatchResult.None:
+        return 'border-red-500';
+    }
+  };
+
   if (!text) {
     return (
-      <div className="bg-white rounded-lg p-6 shadow-sm min-h-[200px] relative">
+      <div className="bg-white rounded-lg p-6 shadow-sm min-h-[200px] relative border-2 border-transparent">
         <div className="text-center text-gray-500 py-8">
           <p>Hold the microphone button to start speaking</p>
           <p className="text-sm mt-2">Make sure to allow microphone access</p>
@@ -35,14 +53,12 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
   }
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm min-h-[200px] relative">
+    <div className={`bg-white rounded-lg p-6 shadow-sm min-h-[200px] relative border-2 transition-colors duration-200 ${getBorderColor()}`}>
       <div className="space-y-2">
         <p className="text-lg text-gray-600">{pinyin}</p>
-        <div className="flex items-center justify-between">
-          <p className="text-3xl text-gray-800">{text}</p>
-          {matchResult !== undefined && <StatusIcon matchResult={matchResult} />}
-        </div>
+        <p className="text-3xl text-gray-800">{text}</p>
       </div>
+      {matchResult !== undefined && <StatusIcon matchResult={matchResult} />}
       <WaveAnimation isActive={isListening} />
     </div>
   );
