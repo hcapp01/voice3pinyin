@@ -7,4 +7,8 @@ export default defineConfig({
   clean: true,
   external: ['react', 'lucide-react'],
   treeshake: true,
+  injectStyle: true,
+  loader: {
+    '.css': 'css',
+  },
 });

@@ -1,5 +1,9 @@
 
 
+## Prerequisites
+
+This package uses Tailwind CSS for styling. Make sure you have Tailwind CSS configured in your project.
+
 ## Usage
 
 ```tsx
@@ -22,11 +26,6 @@ function App() {
 }
 ```
 
-## Components
-
-### SpeechInput
-
-A complete speech input component with microphone button and visual feedback.
 
 ### Hooks
 
