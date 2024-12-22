@@ -41,7 +41,7 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
 
   if (!text) {
     return (
-      <div className="h-full bg-white rounded-lg p-4 shadow-sm relative border-2 border-transparent select-none">
+      <div className="h-full bg-white rounded-lg p-4 shadow-sm relative border-2 border-transparent select-none overflow-y-auto">
         <div className="text-center text-gray-500 mt-8">
           <p>Hold the microphone button and speaking</p>
         </div>
@@ -51,7 +51,7 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
   }
 
   return (
-    <div className={`h-full bg-white rounded-lg p-4 shadow-sm relative border-2 transition-colors duration-200 select-none ${getBorderColor()}`}>
+    <div className={`h-full bg-white rounded-lg p-4 shadow-sm relative border-2 transition-colors duration-200 select-none overflow-y-auto ${getBorderColor()}`}>
       <div className="space-y-2 mb-12">
         <p className="text-lg text-gray-600">{pinyin}</p>
         <p className="text-3xl text-gray-800">{text}</p>
