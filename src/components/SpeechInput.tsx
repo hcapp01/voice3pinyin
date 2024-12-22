@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { MicButton } from './MicButton';
 import { RecognizedSpeech } from './RecognizedSpeech';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
@@ -10,7 +10,7 @@ interface SpeechInputProps {
   onMatch: (matchResult: MatchResult | undefined) => void;
 }
 
-export function SpeechInput({ targetWord, targetPinyin, onMatch }: SpeechInputProps) {
+export const SpeechInput: FC<SpeechInputProps> = ({ targetWord, targetPinyin, onMatch }) => {
   const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
     targetWord,
     targetPinyin,
@@ -37,4 +37,4 @@ export function SpeechInput({ targetWord, targetPinyin, onMatch }: SpeechInputPr
       </div>
     </>
   );
-}
+};

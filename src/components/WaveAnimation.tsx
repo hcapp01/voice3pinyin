@@ -1,10 +1,10 @@
-import React from 'react';
+import { type FC } from 'react';
 
 interface WaveAnimationProps {
   isActive: boolean;
 }
 
-export function WaveAnimation({ isActive }: WaveAnimationProps) {
+export const WaveAnimation: FC<WaveAnimationProps> = ({ isActive }) => {
   return (
     <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-1 h-16">
       {[...Array(8)].map((_, i) => (
@@ -22,4 +22,4 @@ export function WaveAnimation({ isActive }: WaveAnimationProps) {
       ))}
     </div>
   );
-}
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { ChineseWord } from '../types/chinese';
 
@@ -7,7 +7,7 @@ interface TargetWordProps {
   onRefresh: () => void;
 }
 
-export function TargetWord({ word, onRefresh }: TargetWordProps) {
+export const TargetWord: FC<TargetWordProps> = ({ word, onRefresh }) => {
   return (
     <div className="bg-blue-50 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-2">
@@ -25,4 +25,4 @@ export function TargetWord({ word, onRefresh }: TargetWordProps) {
       <p className="text-sm text-gray-500 mt-1">Meaning: {word.meaning}</p>
     </div>
   );
-}
+};

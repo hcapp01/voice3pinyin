@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { Mic, Square } from 'lucide-react';
 
 interface MicButtonProps {
@@ -7,7 +7,7 @@ interface MicButtonProps {
   onStop: () => void;
 }
 
-export function MicButton({ isListening, onStart, onStop }: MicButtonProps) {
+export const MicButton: FC<MicButtonProps> = ({ isListening, onStart, onStop }) => {
   return (
     <button
       onMouseDown={onStart}
@@ -33,4 +33,4 @@ export function MicButton({ isListening, onStart, onStop }: MicButtonProps) {
       )}
     </button>
   );
-}
+};
