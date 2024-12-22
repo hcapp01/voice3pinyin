@@ -34,10 +34,12 @@ function App() {
           onRefresh={generateNewWord}
         />
 
-        <RecognizedSpeech 
-          translation={translation}
-          isListening={isListening}
-        />
+        <div className="h-[180px]">
+          <RecognizedSpeech 
+            translation={translation}
+            isListening={isListening}
+          />
+        </div>
 
         <div className="flex justify-center">
           <MicButton
