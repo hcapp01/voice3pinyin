@@ -3,7 +3,11 @@ import { pinyin } from 'pinyin-pro';
 import { TranslationState, MatchResult } from '../types/chinese';
 import { comparePinyinWithTones } from '../utils/pinyinUtils';
 
-export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
+export function useSpeechRecognition(
+  targetWord: string, 
+  targetPinyin: string,
+  onMatch?: (matchResult: MatchResult | undefined) => void
+) {
   const [isListening, setIsListening] = useState(false);
   const [translation, setTranslation] = useState<TranslationState>({ 
     text: '', 
@@ -39,11 +43,14 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
 
       const matchResult = comparePinyinWithTones(spokenPinyin, targetPinyin);
 
-      setTranslation({
+      const newTranslation = {
         text: transcript,
         pinyin: displayPinyin,
         matchResult
-      });
+      };
+
+      setTranslation(newTranslation);
+      onMatch?.(matchResult);
 
       if (matchResult === MatchResult.Full) {
         stopListening();
@@ -69,7 +76,7 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
         isRecognitionActiveRef.current = false;
       }
     };
-  }, [targetWord, targetPinyin]);
+  }, [targetWord, targetPinyin, onMatch]);
 
   const startListening = useCallback(() => {
     if (!recognitionRef.current || isRecognitionActiveRef.current) return;
