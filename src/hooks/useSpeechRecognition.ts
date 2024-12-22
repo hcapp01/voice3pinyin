@@ -21,7 +21,7 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
     recognition.interimResults = true;
     recognition.lang = 'zh-CN';
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = Array.from(event.results)
         .map(result => result[0])
         .map(result => result.transcript)
@@ -37,7 +37,6 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
         type: 'array'
       }).join(' ');
 
-      // Check for exact character match first
       const matchResult = comparePinyinWithTones(spokenPinyin, targetPinyin);
 
       setTranslation({
@@ -51,7 +50,7 @@ export function useSpeechRecognition(targetWord: string, targetPinyin: string) {
       }
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('Speech recognition error:', event.error);
       isRecognitionActiveRef.current = false;
       setIsListening(false);

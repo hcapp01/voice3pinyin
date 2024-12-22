@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MicButton } from './components/MicButton';
-import { TranslationBox } from './components/TranslationBox';
+import { RecognizedSpeech } from './components/RecognizedSpeech';
 import { TargetWord } from './components/TargetWord';
 import { useSpeechRecognition } from './hooks/useSpeechRecognition';
 import { chineseWords } from './utils/chineseWords';
@@ -34,7 +34,7 @@ function App() {
           onRefresh={generateNewWord}
         />
 
-        <TranslationBox 
+        <RecognizedSpeech 
           translation={translation}
           isListening={isListening}
         />
@@ -50,3 +50,5 @@ function App() {
     </div>
   );
 }
+
+export default App;
