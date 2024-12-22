@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { MicButton } from './components/MicButton';
-import { RecognizedSpeech } from './components/RecognizedSpeech';
 import { TargetWord } from './components/TargetWord';
-import { useSpeechRecognition } from './hooks/useSpeechRecognition';
+import { SpeechInput } from './components/SpeechInput';
 import { chineseWords } from './utils/chineseWords';
 
 function App() {
   const [currentWord, setCurrentWord] = useState(chineseWords[0]);
-
-  const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
-    currentWord.word,
-    currentWord.pinyin
-  );
 
   const generateNewWord = () => {
     const randomIndex = Math.floor(Math.random() * chineseWords.length);
@@ -34,22 +27,10 @@ function App() {
           onRefresh={generateNewWord}
         />
 
-        <div className="h-[180px]">
-          {(isListening || translation.matchResult !== undefined) && (
-            <RecognizedSpeech 
-              translation={translation}
-              isListening={isListening}
-            />
-          )}
-        </div>
-
-        <div className="flex justify-center">
-          <MicButton
-            isListening={isListening}
-            onStart={startListening}
-            onStop={stopListening}
-          />
-        </div>
+        <SpeechInput
+          targetWord={currentWord.word}
+          targetPinyin={currentWord.pinyin}
+        />
       </div>
     </div>
   );
