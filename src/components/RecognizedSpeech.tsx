@@ -12,7 +12,7 @@ function StatusIcon({ matchResult }: { matchResult: MatchResult }) {
   const iconProps = {
     size: 24,
     strokeWidth: 2,
-    className: "absolute top-6 right-6"
+    className: "absolute top-4 right-4"
   };
 
   switch (matchResult) {
@@ -29,7 +29,6 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
   const { text, pinyin, matchResult } = translation;
 
   const getBorderColor = () => {
-    if (!matchResult) return 'border-transparent';
     switch (matchResult) {
       case MatchResult.Full:
         return 'border-green-500';
@@ -42,8 +41,8 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
 
   if (!text) {
     return (
-      <div className="h-full bg-white rounded-lg p-6 shadow-sm relative border-2 border-transparent overflow-hidden">
-        <div className="text-center text-gray-500 py-8">
+      <div className="h-full bg-white rounded-lg p-4 shadow-sm relative border-2 border-transparent">
+        <div className="text-center text-gray-500 mt-8">
           <p>Hold the microphone button to start speaking</p>
           <p className="text-sm mt-2">Make sure to allow microphone access</p>
         </div>
@@ -53,8 +52,8 @@ export function RecognizedSpeech({ translation, isListening }: RecognizedSpeechP
   }
 
   return (
-    <div className={`h-full bg-white rounded-lg p-6 shadow-sm relative border-2 transition-colors duration-200 ${getBorderColor()} overflow-auto`}>
-      <div className="space-y-2 mb-16">
+    <div className={`h-full bg-white rounded-lg p-4 shadow-sm relative border-2 transition-colors duration-200 ${getBorderColor()}`}>
+      <div className="space-y-2 mb-12">
         <p className="text-lg text-gray-600">{pinyin}</p>
         <p className="text-3xl text-gray-800">{text}</p>
       </div>
