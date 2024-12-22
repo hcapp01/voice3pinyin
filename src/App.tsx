@@ -8,6 +8,7 @@ import { MatchResult } from './types/chinese';
 function App() {
   const [currentWord, setCurrentWord] = useState(chineseWords[0]);
   const [showFireworks, setShowFireworks] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
   const generateNewWord = () => {
     const randomIndex = Math.floor(Math.random() * chineseWords.length);
@@ -37,12 +38,14 @@ function App() {
         <TargetWord 
           word={currentWord}
           onRefresh={generateNewWord}
+          isListening={isListening}
         />
 
         <SpeechInput
           targetWord={currentWord.word}
           targetPinyin={currentWord.pinyin}
           onMatch={handleMatch}
+          onListeningChange={setIsListening}
         />
       </div>
       {showFireworks && <Fireworks />}

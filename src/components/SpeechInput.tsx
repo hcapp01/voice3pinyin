@@ -8,13 +8,15 @@ interface SpeechInputProps {
   targetWord: string;
   targetPinyin: string;
   onMatch: (matchResult: MatchResult | undefined) => void;
+  onListeningChange?: (isListening: boolean) => void;
 }
 
-export function SpeechInput({ targetWord, targetPinyin, onMatch }: SpeechInputProps) {
+export function SpeechInput({ targetWord, targetPinyin, onMatch, onListeningChange }: SpeechInputProps) {
   const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
     targetWord,
     targetPinyin,
-    onMatch
+    onMatch,
+    onListeningChange
   );
 
   return (

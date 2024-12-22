@@ -6,7 +6,8 @@ import { comparePinyinWithTones } from '../utils/pinyinUtils';
 export function useSpeechRecognition(
   targetWord: string, 
   targetPinyin: string,
-  onMatch?: (matchResult: MatchResult | undefined) => void
+  onMatch?: (matchResult: MatchResult | undefined) => void,
+  onListeningChange?: (isListening: boolean) => void
 ) {
   const [isListening, setIsListening] = useState(false);
   const [translation, setTranslation] = useState<TranslationState>({ 
@@ -66,6 +67,7 @@ export function useSpeechRecognition(
     recognition.onend = () => {
       isRecognitionActiveRef.current = false;
       setIsListening(false);
+      onListeningChange?.(false);
     };
 
     recognitionRef.current = recognition;
@@ -76,7 +78,7 @@ export function useSpeechRecognition(
         isRecognitionActiveRef.current = false;
       }
     };
-  }, [targetWord, targetPinyin, onMatch]);
+  }, [targetWord, targetPinyin]);
 
   const startListening = useCallback(() => {
     if (!recognitionRef.current || isRecognitionActiveRef.current) return;
@@ -86,12 +88,14 @@ export function useSpeechRecognition(
       recognitionRef.current.start();
       isRecognitionActiveRef.current = true;
       setIsListening(true);
+      onListeningChange?.(true);
     } catch (error) {
       if (error instanceof Error) {
         console.error('Failed to start recognition:', error.message);
       }
       isRecognitionActiveRef.current = false;
       setIsListening(false);
+      onListeningChange?.(false);
     }
   }, []);
 
@@ -102,10 +106,12 @@ export function useSpeechRecognition(
       recognitionRef.current.stop();
       isRecognitionActiveRef.current = false;
       setIsListening(false);
+      onListeningChange?.(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error('Failed to stop recognition:', error.message);
       }
+      onListeningChange?.(false);
     }
   }, []);
 

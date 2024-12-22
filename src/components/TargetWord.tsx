@@ -5,16 +5,22 @@ import { ChineseWord } from '../types/chinese';
 interface TargetWordProps {
   word: ChineseWord;
   onRefresh: () => void;
+  isListening?: boolean;
 }
 
-export function TargetWord({ word, onRefresh }: TargetWordProps) {
+export function TargetWord({ word, onRefresh, isListening }: TargetWordProps) {
   return (
     <div className="bg-blue-50 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-sm font-semibold text-gray-600">Target Word</h2>
         <button
           onClick={onRefresh}
-          className="p-2 hover:bg-blue-100 rounded-full transition-colors"
+          className={`p-2 rounded-full transition-colors ${
+            isListening 
+              ? 'opacity-50 cursor-not-allowed' 
+              : 'hover:bg-blue-100'
+          }`}
+          disabled={isListening}
           title="Generate new word"
         >
           <RefreshCw size={16} className="text-blue-600" />
