@@ -10,6 +10,8 @@ This package uses Tailwind CSS for styling. Make sure you have Tailwind CSS conf
 import { SpeechInput, MatchResult } from '@hcapp01/voice-2-pinyin';
 
 function App() {
+  const [isListening, setIsListening] = useState(false);
+
   const handleMatch = (matchResult: MatchResult | undefined) => {
     if (matchResult === MatchResult.Full) {
       console.log('Perfect match!');
@@ -17,14 +19,26 @@ function App() {
   };
 
   return (
-    <SpeechInput
-      targetWord="你好"
-      targetPinyin="nǐ hǎo"
-      onMatch={handleMatch}
-    />
+    <div className="relative h-[440px] border-2 rounded-xl p-6">
+      <SpeechInput
+        targetWord="你好"
+        targetPinyin="nǐ hǎo"
+        onMatch={handleMatch}
+        onListeningChange={setIsListening}
+      />
+    </div>
   );
 }
 ```
+
+### Component Layout
+
+The SpeechInput component follows a specific layout structure:
+
+2. Mic button is always centered in the container
+3. RecognizedSpeech area appears above the mic button and takes 1/3 of container height
+4. TargetWord component should be positioned at the bottom
+5. The mic button's position remains stable when pressed
 
 
 ### Hooks
@@ -35,7 +49,8 @@ function App() {
 const { isListening, translation, startListening, stopListening } = useSpeechRecognition(
   targetWord,
   targetPinyin,
-  onMatch
+  onMatch,
+  onListeningChange
 );
 ```
 
@@ -53,8 +68,5 @@ interface TranslationState {
   pinyin: string;
   matchResult?: MatchResult;
 }
-```
 
-## Positioning
-Mic button wil always appear in the center of SpeechInput's container, no matter how many component before or after it. Its position should not change when pressed.
-When it shows, recoginized Speech area is always above mic button. Its height is 1/3 of SpeechInput's container.
+```
