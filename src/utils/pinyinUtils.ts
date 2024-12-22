@@ -15,6 +15,8 @@ export function comparePinyinWithTones(spoken: string, target: string): MatchRes
   const normalizedSpoken = normalizePinyin(spoken);
   const normalizedTarget = normalizePinyin(target);
   
+  let result = MatchResult.None;
+  
   if (normalizedSpoken.includes(normalizedTarget)) {
     // If the base pronunciation matches, check if the tones match
     const spokenWithTones = pinyin(spoken, {
@@ -23,8 +25,9 @@ export function comparePinyinWithTones(spoken: string, target: string): MatchRes
       nonZh: 'removed'
     });
     
-    return spokenWithTones.includes(target) ? MatchResult.Full : MatchResult.Partial;
+    result = spokenWithTones.includes(target) ? MatchResult.Full : MatchResult.Partial;
   }
-  
-  return MatchResult.None;
+
+  console.log(`Pinyin comparison - Spoken: "${spoken}", Target: "${target}", Result: ${MatchResult[result]} (${result})`);
+  return result;
 }
