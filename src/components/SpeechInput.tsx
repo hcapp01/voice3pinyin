@@ -20,8 +20,8 @@ export function SpeechInput({ targetWord, targetPinyin, onMatch, onListeningChan
   );
 
   return (
-    <div className="relative h-full">
-      <div className="absolute inset-x-0 top-0 h-1/2">
+    <div className="relative h-full pointer-events-none">
+      <div className="absolute inset-x-0 top-0 h-1/2  pointer-events-auto">
         {(isListening || translation.matchResult !== undefined) && (
           <RecognizedSpeech 
             translation={translation}
@@ -30,7 +30,7 @@ export function SpeechInput({ targetWord, targetPinyin, onMatch, onListeningChan
         )}
       </div>
 
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
         <MicButton
           isListening={isListening}
           onStart={startListening}
